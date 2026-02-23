@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Una historia especial...</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: black;
+    color: white;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  /* Pantalla inicial */
+  #inicio {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, #1e1e2f, #3a3a6a);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 10;
+  }
+
+  #inicio h1 {
+    font-size: 30px;
+    animation: parpadeo 1.5s infinite;
+  }
+
+  @keyframes parpadeo {
+    0%,100% {opacity:1;}
+    50% {opacity:0.5;}
+  }
+
+  /* Contenido principal */
+  #contenido {
+    display: none;
+    padding-top: 100px;
+  }
+
+  h1 {
+    font-size: 42px;
+    animation: fade 2s ease;
+  }
+
+  p {
+    font-size: 18px;
+    opacity: 0.85;
+    animation: fade 3s ease;
+  }
+
+  button {
+    font-size: 20px;
+    padding: 12px 25px;
+    margin: 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+
+  #si { background-color: #ff4f81; }
+  #no {
+    background-color: #555;
+    position: absolute;
+  }
+
+  @keyframes fade {
+    from {opacity:0; transform:translateY(20px);}
+    to {opacity:1; transform:translateY(0);}
+  }
+
+  /* Pétalos */
+  .petalo {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: pink;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: caer linear infinite;
+  }
+
+  @keyframes caer {
+    0% {transform: translateY(-10vh);}
+    100% {transform: translateY(110vh);}
+  }
+
+  iframe {
+    display: none;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Pantalla inicial -->
+<div id="inicio" onclick="iniciar()">
+  <h1>Toca para comenzar 🎶</h1>
+  <p>Hay algo importante esperándote...</p>
+</div>
+
+<!-- Música -->
+<iframe id="musica" width="0" height="0"
+src="">
+</iframe>
+
+<!-- Contenido -->
+<div id="contenido">
+  <h1>Hay algo que quiero decirte... 💫</h1>
+  <p>Todo empezó como algo pequeño...</p>
+  <p>Pero ahora... eres alguien muy especial para mí ✨</p>
+
+  <h1 id="pregunta" style="margin-top:40px; display:none;">
+    ¿Quieres ser mi novia? 💖
+  </h1>
+
+  <div id="botones" style="display:none;">
+    <button id="si" onclick="respuestaSi()">Sí 💕</button>
+    <button id="no" onmouseover="moverBoton()">No 😢</button>
+  </div>
+</div>
+
+<script>
+function iniciar() {
+  document.getElementById("inicio").style.display = "none";
+  document.getElementById("contenido").style.display = "block";
+
+  // Activar música (Gurenge)
+  document.getElementById("musica").src =
+    "https://www.youtube.com/embed/pmanD_s7G3U?autoplay=1&loop=1&playlist=pmanD_s7G3U";
+
+  // Pétalos
+  setInterval(crearPetalo, 200);
+
+  // Timing dramático
+  setTimeout(() => {
+    document.getElementById("pregunta").style.display = "block";
+    document.getElementById("botones").style.display = "block";
+  }, 6000);
+}
+
+function moverBoton() {
+  const b = document.getElementById("no");
+  b.style.top = Math.random() * window.innerHeight + "px";
+  b.style.left = Math.random() * window.innerWidth + "px";
+}
+
+function respuestaSi() {
+  document.body.innerHTML = `
+    <h1 style="margin-top:200px;">💖 Lo hicimos… 💖</h1>
+    <p>Este es solo el comienzo de algo increíble ✨</p>
+  `;
+}
+
+function crearPetalo() {
+  const p = document.createElement("div");
+  p.classList.add("petalo");
+  p.style.left = Math.random() * 100 + "vw";
+  p.style.animationDuration = (Math.random()*3+3) + "s";
+  document.body.appendChild(p);
+
+  setTimeout(()=>{p.remove();},6000);
+}
+</script>
+
+</body>
+</html>
