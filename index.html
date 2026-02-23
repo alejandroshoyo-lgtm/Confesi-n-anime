@@ -14,7 +14,6 @@
     text-align: center;
   }
 
-  /* Pantalla inicial */
   #inicio {
     position: absolute;
     width: 100%;
@@ -27,32 +26,13 @@
     z-index: 10;
   }
 
-  #inicio h1 {
-    font-size: 30px;
-    animation: parpadeo 1.5s infinite;
-  }
-
-  @keyframes parpadeo {
-    0%,100% {opacity:1;}
-    50% {opacity:0.5;}
-  }
-
-  /* Contenido principal */
   #contenido {
     display: none;
     padding-top: 100px;
   }
 
-  h1 {
-    font-size: 42px;
-    animation: fade 2s ease;
-  }
-
-  p {
-    font-size: 18px;
-    opacity: 0.85;
-    animation: fade 3s ease;
-  }
+  h1 { font-size: 40px; }
+  p { opacity: 0.85; }
 
   button {
     font-size: 20px;
@@ -64,17 +44,8 @@
   }
 
   #si { background-color: #ff4f81; }
-  #no {
-    background-color: #555;
-    position: absolute;
-  }
+  #no { background-color: #555; position: absolute; }
 
-  @keyframes fade {
-    from {opacity:0; transform:translateY(20px);}
-    to {opacity:1; transform:translateY(0);}
-  }
-
-  /* Pétalos */
   .petalo {
     position: absolute;
     width: 10px;
@@ -90,8 +61,14 @@
     100% {transform: translateY(110vh);}
   }
 
-  iframe {
-    display: none;
+  #musicBtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border-radius: 10px;
+    padding: 8px;
   }
 </style>
 </head>
@@ -104,10 +81,13 @@
   <p>Hay algo importante esperándote...</p>
 </div>
 
-<!-- Música -->
-<iframe id="musica" width="0" height="0"
-src="">
-</iframe>
+<!-- AUDIO -->
+<audio id="bgm" loop>
+  <!-- 🔥 PON AQUÍ TU AUDIO -->
+  <source src="https://files.catbox.moe/6m7r8k.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn" onclick="toggleMusic()">🔊</button>
 
 <!-- Contenido -->
 <div id="contenido">
@@ -115,7 +95,7 @@ src="">
   <p>Todo empezó como algo pequeño...</p>
   <p>Pero ahora... eres alguien muy especial para mí ✨</p>
 
-  <h1 id="pregunta" style="margin-top:40px; display:none;">
+  <h1 id="pregunta" style="display:none;">
     ¿Quieres ser mi novia? 💖
   </h1>
 
@@ -126,22 +106,38 @@ src="">
 </div>
 
 <script>
+let musicaActiva = false;
+
 function iniciar() {
   document.getElementById("inicio").style.display = "none";
   document.getElementById("contenido").style.display = "block";
 
-  // Activar música (Gurenge)
-  document.getElementById("musica").src =
-    "https://www.youtube.com/embed/pmanD_s7G3U?autoplay=1&loop=1&playlist=pmanD_s7G3U";
+  // 🔊 activar música
+  const audio = document.getElementById("bgm");
+  audio.play().catch(()=>{});
 
-  // Pétalos
+  musicaActiva = true;
+
+  // pétalos
   setInterval(crearPetalo, 200);
 
-  // Timing dramático
+  // timing
   setTimeout(() => {
     document.getElementById("pregunta").style.display = "block";
     document.getElementById("botones").style.display = "block";
-  }, 6000);
+  }, 5000);
+}
+
+function toggleMusic() {
+  const audio = document.getElementById("bgm");
+
+  if (musicaActiva) {
+    audio.pause();
+    musicaActiva = false;
+  } else {
+    audio.play();
+    musicaActiva = true;
+  }
 }
 
 function moverBoton() {
